@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+<head>
+<title>Guess the colour game</title>
+<!-- Create a colour guesing game. !-->
+</head>
+<body onload="do_game()">
+
+<script>
+/* Steps on how to build the game
+
+	 1. Declare global variable e.g colours, target, finished
+	 2. Create a function do_game()
+	 2.1 Generate a random number that starts from 0 to length of colour array-1
+	 2.2 Assign the variable "target" the colour generated from random number
+	 2.3 Create a while loop which repeats until "finished" is true:
+	 		* ask the player for their guess using prompt()
+	 		* assign a variable "count" to count how many tries user attempt before he/she guess the correct answer and at every attempt increment by 1.
+	 		* assign variable "finished" to a function check_guess() to check user guess 
+	 3. Create a function check_guess() to check whether the user guess is:
+	        * Not in the colour array. Show appropriate message and return false
+	 		* Alphabetically higher than the target. Show appropriate message and return false
+	 		* Alphabetically lower than the target. Show appropriate message and return false
+	 		* Guess matches the random selected colour. Change the background colour to the target. Show appropriate message including the count of how many tries the user has made to guess the correct colour and return true.
+*/
+
+// Variable Declaration
+var target;
+var finished = false; 
+var guess_input;
+var count = 0;
+var check_colour = false;
+var colour = ["blue", "grey", "green", "orange", "pink", "purple", "red", "yellow" ];
+
+// do_game function
+function do_game()
+{
+	/* Create a variable to store the random number and 
+	   use that number to point to the index of the colour array. Store the value
+	   in a variable. 
+	*/
+	var length = colour.length;
+	var random_number = Math.random() * length;
+	var random_number_integer = Math.floor(random_number);
+	target = colour[random_number_integer];
+
+	// show the selected colour
+	alert("The colour randomly selected is " + target);
+
+	// While loop to ask for user input. Until user guess the correct colour, will keep looping  
+	while(!finished)
+	{
+		guess_input = prompt("I am thinking of one of these colours: \n\n" + 
+								   "Blue, Grey, Green, Orange, Pink, \n\n" +
+								   "Purple, Red, Yellow \n\n" + 
+								   "What colour am i thinking of ?");
+        count+=1;
+
+       // call the variable "finished" and store the result of check_guess function 
+       finished = check_guess();
+	}
+
+	// Show a message that the correct colour was guessed and display it to the body background 
+	myBody = document.getElementsByTagName("body")[0];
+	myBody.style.background = target; 
+
+	alert("Congratulations! You have guessed the right colour! \n\n" +
+		  "It took you " + count + " guesses to finish the game! \n\n" +
+		  "You can see the colour in the background.");
+
+}
+
+/* Check_guess is a function that check whether:
+	1. User enter the colour that is in the list of choices if not go 2.
+	2. Verify whether the colour is alphabetically higher or lower than the target colour if not go 3.
+	3. The colour user guess is the same as the target colour. 
+*/
+function check_guess()
+{
+	for(i = 0; i < colour.length; i+= 1)
+	{
+		if(guess_input == colour[i])
+		{
+			check_colour = true;
+			break;
+		}
+		else
+		{
+			check_colour = false
+		}
+	}
+	if(check_colour == false)
+	{
+		alert("Sorry, i don't recognize your colour. \n\n" +
+			  "Please try again.");
+
+		return false;
+	}
+	else if(guess_input > target)
+	{
+		alert("Sorry, your guess is not correct! \n\n" +
+			  "Hint: Your colour is alphabetically higher than mine. \n\n" +
+			  "Please try again.");
+
+		return false;
+	}
+	else if(guess_input < target)
+	{
+		alert("Sorry, your guess is not correct \n\n" +
+			  "Hint: Your colour is alphabetically lower than mine. \n\n" +
+			  "Please try again.");
+
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+
+	
+}
+
+</script>
+</body>
+</html>
